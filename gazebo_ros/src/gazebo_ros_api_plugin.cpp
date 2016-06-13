@@ -1860,6 +1860,7 @@ void GazeboRosApiPlugin::publishModelStates()
   gazebo_msgs::ModelStates model_states;
 
   // fill model_states
+  model_states.header.stamp = ros::Time(world_->GetSimTime().Double());
   for (unsigned int i = 0; i < world_->GetModelCount(); i ++)
   {
     gazebo::physics::ModelPtr model = world_->GetModel(i);
