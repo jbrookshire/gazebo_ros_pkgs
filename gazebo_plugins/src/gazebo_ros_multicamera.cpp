@@ -100,16 +100,17 @@ void GazeboRosMultiCamera::OnNewFrameLeft(const unsigned char *_image,
     const std::string &_format)
 {
   GazeboRosCameraUtils* util = this->utils[0];
-  util->sensor_update_time_ = util->parentSensor_->GetLastUpdateTime();
+  //util->sensor_update_time_ = util->parentSensor_->GetLastUpdateTime();
+  common::Time sensor_update_time = util->parentSensor_->GetLastMeasurementTime();
 
   if (util->parentSensor_->IsActive())
   {
-    common::Time cur_time = util->world_->GetSimTime();
-    if (cur_time - util->last_update_time_ >= util->update_period_)
+    //common::Time cur_time = util->world_->GetSimTime();
+    //if (cur_time - util->last_update_time_ >= util->update_period_)
     {
-      util->PutCameraData(_image);
-      util->PublishCameraInfo();
-      util->last_update_time_ = cur_time;
+      util->PutCameraData(_image, sensor_update_time);
+      util->PublishCameraInfo(sensor_update_time);
+      util->last_update_time_ = sensor_update_time; //cur_time;
     }
   }
 }
@@ -121,16 +122,17 @@ void GazeboRosMultiCamera::OnNewFrameRight(const unsigned char *_image,
     const std::string &_format)
 {
   GazeboRosCameraUtils* util = this->utils[1];
-  util->sensor_update_time_ = util->parentSensor_->GetLastUpdateTime();
+  //util->sensor_update_time_ = util->parentSensor_->GetLastUpdateTime();
+  common::Time sensor_update_time = util->parentSensor_->GetLastMeasurementTime();
 
   if (util->parentSensor_->IsActive())
   {
-    common::Time cur_time = util->world_->GetSimTime();
-    if (cur_time - util->last_update_time_ >= util->update_period_)
+    //common::Time cur_time = util->world_->GetSimTime();
+    //if (cur_time - util->last_update_time_ >= util->update_period_)
     {
-      util->PutCameraData(_image);
-      util->PublishCameraInfo();
-      util->last_update_time_ = cur_time;
+      util->PutCameraData(_image, sensor_update_time);
+      util->PublishCameraInfo(sensor_update_time);
+      util->last_update_time_ = sensor_update_time; //cur_time;
     }
   }
 }
