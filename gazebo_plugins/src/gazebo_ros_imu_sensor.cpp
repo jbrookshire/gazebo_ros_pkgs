@@ -92,20 +92,19 @@ void gazebo::GazeboRosImuSensor::UpdateChild(const gazebo::common::UpdateInfo &/
 #endif
 
     //Guassian noise is applied to all measurements
-    /*
-    imu_msg.orientation.x = orientation.x + GuassianKernel(0,gaussian_noise);
-    imu_msg.orientation.y = orientation.y + GuassianKernel(0,gaussian_noise);
-    imu_msg.orientation.z = orientation.z + GuassianKernel(0,gaussian_noise);
-    imu_msg.orientation.w = orientation.w + GuassianKernel(0,gaussian_noise);
+    imu_msg.orientation.x = orientation.x;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.orientation.y = orientation.y;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.orientation.z = orientation.z;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.orientation.w = orientation.w;// + GuassianKernel(0,gaussian_noise);
 
-    imu_msg.linear_acceleration.x = accelerometer_data.x + GuassianKernel(0,gaussian_noise);
-    imu_msg.linear_acceleration.y = accelerometer_data.y + GuassianKernel(0,gaussian_noise);
-    imu_msg.linear_acceleration.z = accelerometer_data.z + GuassianKernel(0,gaussian_noise);
+    imu_msg.linear_acceleration.x = accelerometer_data.x;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.linear_acceleration.y = accelerometer_data.y;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.linear_acceleration.z = accelerometer_data.z;// + GuassianKernel(0,gaussian_noise);
 
-    imu_msg.angular_velocity.x = gyroscope_data.x + GuassianKernel(0,gaussian_noise);
-    imu_msg.angular_velocity.y = gyroscope_data.y + GuassianKernel(0,gaussian_noise);
-    imu_msg.angular_velocity.z = gyroscope_data.z + GuassianKernel(0,gaussian_noise);
-    */
+    imu_msg.angular_velocity.x = gyroscope_data.x;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.angular_velocity.y = gyroscope_data.y;// + GuassianKernel(0,gaussian_noise);
+    imu_msg.angular_velocity.z = gyroscope_data.z;// + GuassianKernel(0,gaussian_noise);
+
 
     //covariance is related to the Gaussian noise
     double gn2 = 0.0; //gaussian_noise*gaussian_noise;
