@@ -102,7 +102,7 @@ void GazeboRosMultiCamera::OnNewFrameLeft(const unsigned char *_image,
   GazeboRosCameraUtils* util = this->utils[0];
 
   //util->sensor_update_time_ = util->parentSensor_->LastUpdateTime();
-  common::Time sensor_update_time = util->parentSensor_->GetLastMeasurementTime();
+  common::Time sensor_update_time = util->parentSensor_->LastMeasurementTime();
 
   if (util->parentSensor_->IsActive())
   {
@@ -125,7 +125,7 @@ void GazeboRosMultiCamera::OnNewFrameRight(const unsigned char *_image,
   GazeboRosCameraUtils* util = this->utils[1];
 
   //util->sensor_update_time_ = util->parentSensor_->LastUpdateTime();
-  common::Time sensor_update_time = util->parentSensor_->GetLastMeasurementTime();
+  common::Time sensor_update_time = util->parentSensor_->LastMeasurementTime();
 
   if (util->parentSensor_->IsActive())
   {
