@@ -45,21 +45,30 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
   this->parentSensor =
     dynamic_pointer_cast<sensors::MultiCameraSensor>(_sensor);
 
+  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here1" << std::endl;
   if (!this->parentSensor)
   {
     gzerr << "MultiCameraPlugin requires a CameraSensor.\n";
-    if (dynamic_pointer_cast<sensors::DepthCameraSensor>(_sensor))
+    std::cout << "MultiCameraPlugin requires a CameraSensor." << std::endl;
+    if (dynamic_pointer_cast<sensors::DepthCameraSensor>(_sensor)) {
       gzmsg << "It is a depth camera sensor\n";
-    if (dynamic_pointer_cast<sensors::CameraSensor>(_sensor))
+      std::cout << "It is a depth camera sensor\n";
+    }
+    if (dynamic_pointer_cast<sensors::CameraSensor>(_sensor)) {
       gzmsg << "It is a camera sensor\n";
+      std::cout << "It is a camera sensor\n";
+    }
   }
 
+  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here2" << std::endl;
   if (!this->parentSensor)
   {
     gzerr << "MultiCameraPlugin not attached to a camera sensor\n";
+    std::cout << "MultiCameraPlugin not attached to a camera sensor" << std::endl;
     return;
   }
 
+  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here3" << std::endl;
   for (unsigned int i = 0; i < this->parentSensor->CameraCount(); ++i)
   {
     this->camera.push_back(this->parentSensor->Camera(i));
@@ -71,20 +80,24 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
     this->format.push_back(this->camera[i]->ImageFormat());
 
     std::string cameraName = this->parentSensor->Camera(i)->Name();
-    // gzdbg << "camera(" << i << ") name [" << cameraName << "]\n";
+    gzdbg << "camera(" << i << ") name [" << cameraName << "]\n";
 
+    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " << cameraName << std::endl;
+  
     // FIXME: hardcoded 2 camera support only
     if (cameraName.find("left") != std::string::npos)
     {
       this->newFrameConnection.push_back(this->camera[i]->ConnectNewImageFrame(
         boost::bind(&MultiCameraPlugin::OnNewFrameLeft,
         this, _1, _2, _3, _4, _5)));
+      gzerr << "found left camera!\n";
     }
     else if (cameraName.find("right") != std::string::npos)
     {
       this->newFrameConnection.push_back(this->camera[i]->ConnectNewImageFrame(
         boost::bind(&MultiCameraPlugin::OnNewFrameRight,
         this, _1, _2, _3, _4, _5)));
+      gzerr << "found right camera!\n";
     }
   }
 
