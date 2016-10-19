@@ -230,9 +230,11 @@ void GazeboRosDiffDrive::publishWheelTF()
         tf::Quaternion qt ( poseWheel.rot.x, poseWheel.rot.y, poseWheel.rot.z, poseWheel.rot.w );
         tf::Vector3 vt ( poseWheel.pos.x, poseWheel.pos.y, poseWheel.pos.z );
 
+	/*
         tf::Transform tfWheel ( qt, vt );
         transform_broadcaster_->sendTransform (
             tf::StampedTransform ( tfWheel, current_time, wheel_parent_frame, wheel_frame ) );
+	*/
     }
 }
 
@@ -455,11 +457,12 @@ void GazeboRosDiffDrive::publishOdometry ( double step_time )
         odom_.twist.twist.linear.y = cosf ( yaw ) * linear.y - sinf ( yaw ) * linear.x;
     }
 
+    /*
     tf::Transform base_footprint_to_odom ( qt, vt );
     transform_broadcaster_->sendTransform (
         tf::StampedTransform ( base_footprint_to_odom, current_time,
                                odom_frame, base_footprint_frame ) );
-
+    */
 
     // set covariance
     odom_.pose.covariance[0] = 0.00001;
