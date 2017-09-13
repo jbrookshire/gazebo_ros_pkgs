@@ -2,6 +2,53 @@
 Changelog for package gazebo_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.5.13 (2017-06-24)
+-------------------
+* Quote arguments to echo in libcommon.sh (`#590 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/590>`_)
+* Add catkin package(s) to provide the default version of Gazebo (`#571 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/571>`_)
+  * Added catkin package gazebo_dev which provides the cmake config of the installed Gazebo version
+* Contributors: Jose Luis Rivero, daewok
+
+2.5.12 (2017-04-25)
+-------------------
+
+2.5.11 (2017-04-18)
+-------------------
+* Changed the spawn model methods to spawn also lights. (`#511 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/511>`_)
+* Change build system to set DEPEND on Gazebo/SDFormat (fix catkin warning)
+  Added missing DEPEND clauses to catkin_package to fix gazebo catkin warning.
+  Note that after the change problems could appear related to -lpthreads
+  errors. This is an known issue related to catkin:
+  https://github.com/ros/catkin/issues/856.
+* Use correct logerr method (`#557 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/557>`_)
+* Contributors: Alessandro Ambrosano, Dave Coleman, Gary Servin
+
+2.5.10 (2017-03-03)
+-------------------
+* Revert catkin warnings to fix regressions (problems with catkin -lpthreads errors)
+  For reference and reasons, please check:
+  https://discourse.ros.org/t/need-to-sync-new-release-of-rqt-topic-indigo-jade-kinetic/1410/4
+  * Revert "Fix gazebo catkin warning, cleanup CMakeLists (`#537 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/537>`_)"
+  This reverts commit 5a0305fcb97864b66bc2e587fc0564435b4f2034.
+  * Revert "Fix gazebo and sdformat catkin warnings"
+  This reverts commit 11f95d25dcd32faccd2401d45c722f7794c7542c.
+* Contributors: Jose Luis Rivero
+
+2.5.9 (2017-02-20)
+------------------
+* Fix gazebo catkin warning, cleanup CMakeLists (`#537 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/537>`_)
+* Namespace console output (`#543 <https://github.com/ros-simulation/gazebo_ros_pkgs/issues/543>`_)
+* Removed all trailing whitespace
+* Contributors: Dave Coleman
+
+2.5.8 (2016-12-06)
+------------------
+* Workaround to support gazebo and ROS arguments in the command line
+* Fix ROS remapping by reverting "Remove ROS remapping arguments from gazebo_ros launch scripts.
+* Fixed getlinkstate service's angular velocity return
+* Honor GAZEBO_MASTER_URI in gzserver and gzclient
+* Contributors: Jared, Jon Binney, Jordan Liviero, Jose Luis Rivero, Martin Pecka
+
 2.5.7 (2016-06-10)
 ------------------
 

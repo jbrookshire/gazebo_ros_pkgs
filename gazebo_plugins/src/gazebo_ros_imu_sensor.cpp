@@ -153,7 +153,8 @@ bool gazebo::GazeboRosImuSensor::LoadParameters()
   //NAMESPACE
   if (sdf->HasElement("robotNamespace"))
   {
-    robot_namespace =  "/" + sdf->Get<std::string>("robotNamespace") +"/";
+    //robot_namespace =  "/" + sdf->Get<std::string>("robotNamespace") +"/";
+    robot_namespace =  sdf->Get<std::string>("robotNamespace") +"/";
     ROS_INFO_STREAM("<robotNamespace> set to: "<<robot_namespace);
   }
   else
@@ -254,3 +255,4 @@ gazebo::GazeboRosImuSensor::~GazeboRosImuSensor()
 
   node->shutdown();
 }
+
