@@ -1945,6 +1945,8 @@ void GazeboRosApiPlugin::publishLinkStates()
 {
   gazebo_msgs::LinkStates link_states;
 
+  link_states.header.stamp = ros::Time(world_->GetSimTime().Double());
+
   // fill link_states
   for (unsigned int i = 0; i < world_->GetModelCount(); i ++)
   {
