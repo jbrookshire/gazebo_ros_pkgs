@@ -45,7 +45,6 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
   this->parentSensor =
     dynamic_pointer_cast<sensors::MultiCameraSensor>(_sensor);
 
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here1" << std::endl;
   if (!this->parentSensor)
   {
     gzerr << "MultiCameraPlugin requires a CameraSensor.\n";
@@ -60,7 +59,6 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
     }
   }
 
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here2" << std::endl;
   if (!this->parentSensor)
   {
     gzerr << "MultiCameraPlugin not attached to a camera sensor\n";
@@ -68,7 +66,6 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
     return;
   }
 
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ here3" << std::endl;
   for (unsigned int i = 0; i < this->parentSensor->CameraCount(); ++i)
   {
     this->camera.push_back(this->parentSensor->Camera(i));
@@ -82,50 +79,24 @@ void MultiCameraPlugin::Load(sensors::SensorPtr _sensor,
     std::string cameraName = this->parentSensor->Camera(i)->Name();
     gzdbg << "camera(" << i << ") name [" << cameraName << "]\n";
 
-    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " << cameraName << std::endl;
-  
-    // FIXME: hardcoded 2 camera support only
-    if (cameraName.find("left") != std::string::npos)
-    {
-      this->newFrameConnection.push_back(this->camera[i]->ConnectNewImageFrame(
-        boost::bind(&MultiCameraPlugin::OnNewFrameLeft,
-        this, _1, _2, _3, _4, _5)));
-      gzerr << "found left camera!\n";
-    }
-    else if (cameraName.find("right") != std::string::npos)
-    {
-      this->newFrameConnection.push_back(this->camera[i]->ConnectNewImageFrame(
-        boost::bind(&MultiCameraPlugin::OnNewFrameRight,
-        this, _1, _2, _3, _4, _5)));
-      gzerr << "found right camera!\n";
-    }
+    ROS_INFO_NAMED("MultiCameraPlugin", "%s loaded with index %d",
+                   cameraName.c_str(), i);
+
+    this->newFrameConnection.push_back(this->camera[i]->ConnectNewImageFrame(
+        boost::bind(&MultiCameraPlugin::OnNewFrame,
+                    this, i, _1, _2, _3, _4, _5)));
   }
 
   this->parentSensor->SetActive(true);
 }
 
 /////////////////////////////////////////////////
-void MultiCameraPlugin::OnNewFrameLeft(const unsigned char * /*_image*/,
-                              unsigned int /*_width*/,
-                              unsigned int /*_height*/,
-                              unsigned int /*_depth*/,
-                              const std::string &/*_format*/)
+void MultiCameraPlugin::OnNewFrame(const unsigned int camNumber,
+                                   const unsigned char * /*_image*/,
+                                   unsigned int /*_width*/,
+                                   unsigned int /*_height*/,
+                                   unsigned int /*_depth*/,
+                                   const std::string &/*_format*/)
 {
-  /*rendering::Camera::SaveFrame(_image, this->width,
-    this->height, this->depth, this->format,
-    "/tmp/camera/me.jpg");
-    */
 }
 
-/////////////////////////////////////////////////
-void MultiCameraPlugin::OnNewFrameRight(const unsigned char * /*_image*/,
-                              unsigned int /*_width*/,
-                              unsigned int /*_height*/,
-                              unsigned int /*_depth*/,
-                              const std::string &/*_format*/)
-{
-  /*rendering::Camera::SaveFrame(_image, this->width,
-    this->height, this->depth, this->format,
-    "/tmp/camera/me.jpg");
-    */
-}
