@@ -52,7 +52,9 @@ void GazeboRosP3D::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // Get the world name.
   this->world_ = _parent->GetWorld();
   this->model_ = _parent;
-
+  
+  ROS_WARN_NAMED("p3d", "THIS P3D HAS BEEN MODIFIED TO PUBLISH RELATIVE VELOCITES (I.E., IN THE BODYFRAME NOT THE WORLD FRAME).  THIS IS NOT THE SAME AS WHAT IS AVAILABLE IN DEFAULT ROS.");
+  
   // load parameters
   this->robot_namespace_ = "";
   if (_sdf->HasElement("robotNamespace"))
@@ -66,6 +68,8 @@ void GazeboRosP3D::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   }
   else
     this->link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
+
+  ROS_DEBUG_NAMED("p3d", "p3d <bodyName> is %s\n", this->link_name_.c_str());
 
   this->link_ = _parent->GetLink(this->link_name_);
   if (!this->link_)
@@ -90,6 +94,8 @@ void GazeboRosP3D::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   }
   else
     this->frame_name_ = _sdf->GetElement("frameName")->Get<std::string>();
+
+  ROS_DEBUG_NAMED("p3d", "p3d <frameName> is %s\n", this->frame_name_.c_str());
 
   if (!_sdf->HasElement("xyzOffset"))
   {
@@ -230,8 +236,8 @@ void GazeboRosP3D::UpdateChild()
         math::Vector3 frame_veul;
 
         // get inertial Rates
-        math::Vector3 vpos = this->link_->GetWorldLinearVel();
-        math::Vector3 veul = this->link_->GetWorldAngularVel();
+        math::Vector3 vpos = this->link_->GetRelativeLinearVel();
+        math::Vector3 veul = this->link_->GetRelativeAngularVel();
 
         // Get Pose/Orientation
         pose = this->link_->GetWorldPose();
@@ -245,10 +251,10 @@ void GazeboRosP3D::UpdateChild()
           pose.pos = frame_pose.rot.RotateVectorReverse(pose.pos);
           pose.rot *= frame_pose.rot.GetInverse();
           // convert to relative rates
-          frame_vpos = this->reference_link_->GetWorldLinearVel();
-          frame_veul = this->reference_link_->GetWorldAngularVel();
-          vpos = frame_pose.rot.RotateVector(vpos - frame_vpos);
-          veul = frame_pose.rot.RotateVector(veul - frame_veul);
+          //frame_vpos = this->reference_link_->GetWorldLinearVel();
+          //frame_veul = this->reference_link_->GetWorldAngularVel();
+          //vpos = frame_pose.rot.RotateVector(vpos - frame_vpos);
+          //veul = frame_pose.rot.RotateVector(veul - frame_veul);
         }
 
         // Apply Constant Offsets
